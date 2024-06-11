@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculus API Frontend</title>
+    <!-- Add Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+    <h1 class="text-3xl font-bold mb-8">Calculus API Frontend</h1>
+    
+    <div class="max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Derivative</h2>
+        <form id="derivationForm" class="flex items-center mb-4">
+            <label for="expression" class="mr-2">Expression:</label>
+            <input type="text" id="expression" name="expression" class="border border-gray-400 px-2 py-1 rounded">
+            <button type="submit" class="ml-2 bg-purple-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition duration-200">Get Derivative</button>
+        </form>
+        <div id="derivativeResult" class="border border-gray-400 p-2 rounded bg-white"></div>
+    </div>
+
+    <div class="max-w-md w-full mt-8">
+        <h2 class="text-xl font-bold mb-4">Integration</h2>
+        <form id="integrationForm" class="flex items-center mb-4">
+            <label for="expression2" class="mr-2">Expression:</label>
+            <input type="text" id="expression2" name="expression2" class="border border-gray-400 px-2 py-1 rounded">
+            <button type="submit" class="ml-2 bg-purple-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition duration-200">Get Integral</button>
+        </form>
+        <div id="integrationResult" class="border border-gray-400 p-2 rounded bg-white"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("derivationForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                var expression = document.getElementById("expression").value;
+                fetch("http://127.0.0.1:5000/derivation/" + expression)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("derivativeResult").innerText = "Derivative: " + data.number;
+                    })
+                    .catch(error => console.error("Request failed:", error));
+            });
+
+            document.getElementById("integrationForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                var expression = document.getElementById("expression2").value;
+                fetch("http://127.0.0.1:5000/integrationwo/" + expression)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("integrationResult").innerText = "Integral: " + data.number;
+                    })
+                    .catch(error => console.error("Request failed:", error));
+            });
+        });
+    </script>
+</body>
+</html>
